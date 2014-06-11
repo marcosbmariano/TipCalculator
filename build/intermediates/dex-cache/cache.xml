@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/marcos/AndroidStudioProjects/TipCalculator/app/build/intermediates/pre-dexed/debug/classes-22bcaef0b072d8263034e4015aa39b15cfb5d2e0.jar"
+        jar="/home/marcos/AndroidStudioProjects/TipCalculator/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/home/marcos/AndroidStudioProjects/TipCalculator/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-d8cc3646909d156e2ff5de0ab1213e1e45f6ade1.jar"
+        jar="/home/marcos/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+
+</pre-dex-items>

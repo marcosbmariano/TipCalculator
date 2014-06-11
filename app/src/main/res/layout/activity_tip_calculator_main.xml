@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".TipCalculatorMainActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/edTBill"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:hint="Bill Amount" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10%"
+        android:id="@+id/button10"
+        android:layout_marginTop="104dp"
+        android:layout_below="@+id/edTBill"
+        android:layout_alignLeft="@+id/edTBill"
+        android:layout_alignStart="@+id/edTBill" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15%"
+        android:id="@+id/button15"
+        android:layout_alignTop="@+id/button10"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20%"
+        android:id="@+id/button20"
+        android:layout_alignTop="@+id/button15"
+        android:layout_alignRight="@+id/edTBill"
+        android:layout_alignEnd="@+id/edTBill" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tip is:"
+        android:id="@+id/teVTipLabel"
+        android:layout_marginBottom="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/teVTipAmount"
+        android:text="$0.00"
+        android:layout_alignTop="@+id/teVTipLabel"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
