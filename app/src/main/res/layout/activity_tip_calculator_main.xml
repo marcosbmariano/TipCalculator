@@ -52,11 +52,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/teVTipAmount"
         android:text="Tip is: $0.00"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/btnPlus"
-        android:layout_alignStart="@+id/btnPlus"
-        android:layout_marginBottom="101dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/teVDivideLabel"
+        android:layout_alignLeft="@+id/teVDivideLabel"
+        android:layout_alignStart="@+id/teVDivideLabel" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,4 +96,26 @@
         android:id="@+id/btnMinus"
         android:layout_below="@+id/teVTipPerLabel"
         android:layout_toLeftOf="@+id/teVCurrentTipPerc" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Divide Tip by:"
+        android:id="@+id/teVDivideLabel"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/button10"
+        android:layout_alignRight="@+id/btnPlus"
+        android:layout_alignEnd="@+id/btnPlus" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="2"
+        android:id="@+id/edTDivideTip"
+        android:text="1"
+        android:layout_above="@+id/teVTipAmount"
+        android:layout_alignRight="@+id/btnMinus"
+        android:layout_alignEnd="@+id/btnMinus" />
 </RelativeLayout>
