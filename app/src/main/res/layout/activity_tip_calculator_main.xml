@@ -50,18 +50,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Tip is:"
-        android:id="@+id/teVTipLabel"
-        android:layout_marginBottom="64dp"
+        android:id="@+id/teVTipAmount"
+        android:text="Tip is: $0.00"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button15" />
+        android:layout_alignLeft="@+id/btnPlus"
+        android:layout_alignStart="@+id/btnPlus"
+        android:layout_marginBottom="101dp"
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/teVTipAmount"
-        android:text="$0.00"
-        android:layout_alignTop="@+id/teVTipLabel"
-        android:layout_centerHorizontal="true" />
+        android:text="Tip percentage: %"
+        android:id="@+id/teVTipPerLabel"
+        android:layout_below="@+id/edTBill"
+        android:layout_alignLeft="@+id/edTBill"
+        android:layout_alignStart="@+id/edTBill" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0.0"
+        android:id="@+id/teVCurrentTipPerc"
+        android:layout_alignTop="@+id/teVTipPerLabel"
+        android:layout_alignLeft="@+id/button20"
+        android:layout_alignStart="@+id/button20"
+        android:layout_above="@+id/btnMinus" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/btnPlus"
+        android:layout_below="@+id/teVTipPerLabel"
+        android:layout_toLeftOf="@+id/btnMinus" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/btnMinus"
+        android:layout_below="@+id/teVTipPerLabel"
+        android:layout_toLeftOf="@+id/teVCurrentTipPerc" />
 </RelativeLayout>

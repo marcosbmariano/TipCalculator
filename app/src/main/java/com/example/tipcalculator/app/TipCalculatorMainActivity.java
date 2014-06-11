@@ -2,10 +2,14 @@ package com.example.tipcalculator.app;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,12 +18,12 @@ import android.widget.Toast;
 import java.text.NumberFormat;
 
 
-public class TipCalculatorMainActivity extends ActionBarActivity implements View.OnClickListener{
+public class TipCalculatorMainActivity extends ActionBarActivity implements
+        View.OnClickListener {
     private EditText billAmount;
-    private Button tip15;
-    private Button tip10;
-    private Button tip20;
-    private TextView tipAmount;
+    private Button tipMinus, tipPlus, tip10, tip15, tip20;
+    private TextView tipAmount, tipPercentage;
+    private int tipRate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +40,39 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements View
     //setup all the widgets used in the activity
     private void setupWidgets(){
         tipAmount = (TextView) findViewById(R.id.teVTipAmount);
+        tipPercentage = (TextView) findViewById(R.id.teVCurrentTipPerc);
         billAmount = (EditText)findViewById(R.id.edTBill);
         tip10 = (Button) findViewById(R.id.button10);
         tip15 = (Button) findViewById(R.id.button15);
         tip20 = (Button) findViewById(R.id.button20);
+        tipMinus = (Button) findViewById(R.id.btnMinus);
+        tipPlus = (Button) findViewById(R.id.btnPlus);
+        tipMinus.setOnClickListener(this);
+        tipPlus.setOnClickListener(this);
         tip10.setOnClickListener(this);
         tip15.setOnClickListener(this);
         tip20.setOnClickListener(this);
 
-    }
+        billAmount.addTextChangedListener( new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+              calculateTipAndDisplay();
+            }
+                                           }
+
+        );
+
+    }//eof setupWidgets()
 
 
     @Override
@@ -53,35 +81,56 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements View
         switch (view.getId()) {
 
             case R.id.button10:
-                calculateTipAndDisplay(10);
+                tipRate = 10;
                 break;
 
             case R.id.button15:
-                calculateTipAndDisplay(15);
+                tipRate = 15;
                 break;
 
             case R.id.button20:
-                calculateTipAndDisplay(20);
+                tipRate = 20;
+                break;
+
+            case R.id.btnMinus:
+                decreaseTip();
+                break;
+
+            case R.id.btnPlus:
+                increaseTip();
                 break;
 
             default:
 
 
         }
+        calculateTipAndDisplay();
+    }//eof onClick
+
+    private void decreaseTip(){
+        tipRate -= 1;
+    }
+
+    private void increaseTip(){
+        tipRate += 1;
     }
 
 
-    private void calculateTipAndDisplay( double percent){
+    private void displayTipPercentage(){
+        tipPercentage.setText("" + tipRate );
+    }
+
+
+    private void calculateTipAndDisplay( ){
         //get bill amount
         double bill = getBill();
 
         //calculate tip
-        double tip = bill *(percent / 100);
-
-
+        double tip = bill * (tipRate/100.0);
+        displayTipPercentage();
         //display tip on widget
         NumberFormat currency = NumberFormat.getCurrencyInstance();
-        tipAmount.setText(currency.format(tip));
+        tipAmount.setText("Tip is: " + currency.format(tip));
 
 
     }
@@ -94,18 +143,13 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements View
 
         } catch(NumberFormatException e){
 
-            Toast.makeText(this,"Bill Amount Cannot Be Empty", Toast.LENGTH_LONG).show();
-
-        } finally {
-
-            return bill;
+           // Toast.makeText(this,"Bill Amount Cannot Be Empty", Toast.LENGTH_LONG).show();
 
         }
 
-
+            return bill;
 
     }
-
 
 
     @Override
@@ -126,6 +170,7 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements View
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }
