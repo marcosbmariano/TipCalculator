@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,19 +12,18 @@ import android.content.SharedPreferences.Editor;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.text.NumberFormat;
 
 
 public class TipCalculatorMainActivity extends ActionBarActivity implements
         View.OnClickListener {
 
-    private EditText billAmount, tipDivision;
-    private Button tipMinus, tipPlus, tip10, tip15, tip20;
-    private TextView tipAmount, tipPercentage;
-    private int tipRate; //this variable holds the tip percentage
-    private int divideTip; //this variable holds how many person will be the tip divided
-    private SharedPreferences sharedPreferences;
+    private EditText mBillAmount, mTipDivision;
+    private Button mTipMinus, mTipPlus, mTip10, mTip15, mTip20;
+    private TextView mTipAmount, mTipPercentage, mTotalAmount;
+    private int mTipRate; //this variable holds the tip percentage
+    private SharedPreferences mSharedPreferences;
+
 
 
     @Override
@@ -40,26 +38,32 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements
 
     //setup all the widgets used in the activity
     private void setupWidgets(){
-        divideTip = 1; //initial value;
-        sharedPreferences = getSharedPreferences("SavedPreferences", MODE_PRIVATE);
-        tipAmount = (TextView) findViewById(R.id.teVTipAmount);
-        tipPercentage = (TextView) findViewById(R.id.teVCurrentTipPerc);
-        tipDivision = (EditText) findViewById(R.id.edTDivideTip); //how many people to split the tip
-        billAmount = (EditText)findViewById(R.id.edTBill);
-        tip10 = (Button) findViewById(R.id.button10);
-        tip15 = (Button) findViewById(R.id.button15);
-        tip20 = (Button) findViewById(R.id.button20);
-        tipMinus = (Button) findViewById(R.id.btnMinus);
-        tipPlus = (Button) findViewById(R.id.btnPlus);
-        tipMinus.setOnClickListener(this);
-        tipPlus.setOnClickListener(this);
 
-        tip10.setOnClickListener(this);
-        tip15.setOnClickListener(this);
-        tip20.setOnClickListener(this);
+        mSharedPreferences = getSharedPreferences("SavedPreferences", MODE_PRIVATE);
 
+        //instantiate widgets
+        mTipAmount = (TextView) findViewById(R.id.tvTipAmount);
+        mTipPercentage = (TextView) findViewById(R.id.tVCurrentTipPerc);
+        mTotalAmount = (TextView) findViewById(R.id.tvTotalAmount);
+        mTipDivision = (EditText) findViewById(R.id.edTDivideTip); //how many people to split the tip
+        mBillAmount = (EditText)findViewById(R.id.edTBill);
+        mTip10 = (Button) findViewById(R.id.btn10);
+        mTip15 = (Button) findViewById(R.id.btn15);
+        mTip20 = (Button) findViewById(R.id.btn20);
+        mTipMinus = (Button) findViewById(R.id.btnMinus);
+        mTipPlus = (Button) findViewById(R.id.btnPlus);
+
+        //setup listeners
+        mTipMinus.setOnClickListener(this);
+        mTipPlus.setOnClickListener(this);
+        mTip10.setOnClickListener(this);
+        mTip15.setOnClickListener(this);
+        mTip20.setOnClickListener(this);
+
+        //add change listeners to mBillAmount
         addChangeListenerToBillAmount();
-        addChangeListernerToTipDivision();
+        //add change listeners to mTipDivision
+        addChangeListenerToTipDivision();
 
     }//eof setupWidgets()
 
@@ -67,65 +71,59 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements
     //this method enables the billAmount to handle changes in its input
     private void addChangeListenerToBillAmount(){
 
-        billAmount.addTextChangedListener( new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                       calculateTipAndDisplay();
-                }
-            }
-
-        );
-    }//eof addChangeListenerToBillAmount()
-
-    //this method enables the tipDivision to handle changes in its input
-    private void addChangeListernerToTipDivision(){
-        billAmount.addTextChangedListener( new TextWatcher() {
+        mBillAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                  calculateTipAndDisplay();
+                calculateTipAndDisplay();
             }
-          }
 
-        );
+         });
 
-    }//eof addChangeListernerToTipDivision()
+    }//eof addChangeListenerToBillAmount()
+
+
+
+    //this method enables the tipDivision to handle changes in its input
+    private void addChangeListenerToTipDivision(){
+        mTipDivision.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3){
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3){
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable){
+                calculateTipAndDisplay();
+            }
+        });
+    }//eof addChangeListenerToTipDivision()
 
 
 
     @Override
     protected void onPause() {
-        Editor editor = sharedPreferences.edit();
-        editor.putInt("TipRate",tipRate );
+        Editor editor = mSharedPreferences.edit();
+        editor.putInt("TipRate", mTipRate);
         editor.commit();
         super.onPause();
-
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        tipRate = sharedPreferences.getInt("TipRate", 10);
+        mTipRate = mSharedPreferences.getInt("TipRate", 10);
     }
 
 
@@ -134,16 +132,16 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements
 
         switch (view.getId()) {
 
-            case R.id.button10:
-                tipRate = 10;
+            case R.id.btn10:
+                mTipRate = 10;
                 break;
 
-            case R.id.button15:
-                tipRate = 15;
+            case R.id.btn15:
+                mTipRate = 15;
                 break;
 
-            case R.id.button20:
-                tipRate = 20;
+            case R.id.btn20:
+                mTipRate = 20;
                 break;
 
             case R.id.btnMinus:
@@ -151,75 +149,97 @@ public class TipCalculatorMainActivity extends ActionBarActivity implements
                 break;
 
             case R.id.btnPlus:
-                increaseTip();
-                break;
-
             default:
+                increaseTip();
 
         }
-
         calculateTipAndDisplay();
+
     }//eof onClick
 
 
     private void decreaseTip(){
-        tipRate -= 1;
+        mTipRate -= 1;
     }
 
     private void increaseTip(){
-        tipRate += 1;
+        mTipRate += 1;
     }
 
 
     private void displayTipPercentage(){
-        tipPercentage.setText("" + tipRate );
+        mTipPercentage.setText("" + mTipRate);
+    }
+
+    //calculates how much each user will pay
+    //amount reflect how many user
+    private void setTotalAmount(){
+
+        double tip = calculateTip();
+
+        double finalAmountByUser = getBill() / getHowManyPeopleToDivideTip();
+
+        mTotalAmount.setText(getInCurrencyFormat(tip + finalAmountByUser));
+
     }
 
     //this method is responsible to calculate and display
     //the tip
     private void calculateTipAndDisplay( ){
-        //get bill amount
-        double bill = getBill();
 
         //calculate tip
-        double tip = calculateTip( bill );
+        double tip = calculateTip();
 
         displayTipPercentage();
 
-        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        //set the total amount by user
+        setTotalAmount();
+
         //display tip amount on widget
-        tipAmount.setText("Tip is: " + currency.format(tip));
-
-
+        mTipAmount.setText("Tip is: " + getInCurrencyFormat( tip ));
     }
-    //this method calculates the tip based on the bill value
-    //tipRate( tip percentage ) and divideTip ( how many units the tip
-    // should be divided )
-    private double calculateTip(double bill){
+
+
+    private String getInCurrencyFormat(double value){
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        return currency.format(value);
+    }
+
+
+    private double calculateTip(){
+        return ( getBill() * getTipPercentage() ) / getHowManyPeopleToDivideTip();
+    }
+
+
+    private double getTipPercentage(){
+        return  mTipRate /100.0;
+    }
+
+
+    private int getHowManyPeopleToDivideTip(){
+        int howManyPeople = 1;
+
         try{
-            divideTip = Integer.parseInt(tipDivision.getText().toString());
+            howManyPeople = Integer.parseInt(mTipDivision.getText().toString());
         }catch (NumberFormatException e){
-            divideTip = 1;
+            //Method is documented to just ignore invalid user input
+            //howManyPeople will just be unchanged
         }
-
-        if(divideTip < 1){
-            divideTip = 1;
-        }
-
-        return ( bill * (tipRate/100.0))/(double)divideTip;
+        return howManyPeople;
     }
 
-    //this method gets the bill value
+
     private double getBill(){
         double bill = 0.0 ;
 
         try { //try to parse the value from the bill
-            bill = Double.parseDouble(billAmount.getText().toString());
+            bill = Double.parseDouble(mBillAmount.getText().toString());
 
         } catch(NumberFormatException e){
-
+            //Method is documented to just ignore invalid user input
+            //bill will just be unchanged
         }
-            return bill;
+        return bill;
     }
 
 
