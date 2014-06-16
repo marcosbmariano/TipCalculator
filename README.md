@@ -8,3 +8,4 @@ the project took about 3.5 hours to finish
 
 I did it all required plus all optional 
 
+I'm not able to use LiceCap
